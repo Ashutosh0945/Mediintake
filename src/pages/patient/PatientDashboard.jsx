@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
 import Navbar from '../../components/Navbar'
 import RiskBadge from '../../components/RiskBadge'
-import { PlusCircle, User, FileText, AlertTriangle, Clock, CheckCircle, Bell, Pill, Lock, Edit, Calendar } from 'lucide-react'
+import { PlusCircle, User, FileText, AlertTriangle, Clock, CheckCircle, Bell, Pill, Lock, Edit, Calendar, MapPin } from 'lucide-react'
 
 const HEALTH_TIPS = [
   "Drink at least 8 glasses of water daily to stay hydrated.",
@@ -109,6 +109,7 @@ export default function PatientDashboard() {
             { to: '/medical-profile', label: 'Medical Profile', sub: hasMedProfile ? 'View / edit' : 'Not set up', icon: User, color: 'rose' },
             { to: '/edit-profile', label: 'Edit Profile', sub: 'Name, age, phone', icon: Edit, color: 'slate' },
             { to: '/change-password', label: 'Change Password', sub: 'Update security', icon: Lock, color: 'slate' },
+            { to: '/hospitals-near-me', label: 'Hospitals Near Me', sub: 'Find nearby', icon: MapPin, color: 'rose' },
             { to: '/my-intakes', label: 'All Records', sub: 'Intake history', icon: FileText, color: 'slate' },
           ].map(({ to, label, sub, icon: Icon, color, badge }) => (
             <Link key={to} to={to} className="card-hover p-4 flex items-center gap-3 group relative">

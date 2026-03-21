@@ -14,6 +14,7 @@ import AppointmentRequest from './pages/patient/AppointmentRequest'
 import Notifications from './pages/patient/Notifications'
 import ChangePassword from './pages/patient/ChangePassword'
 import MedicationReminders from './pages/patient/MedicationReminders'
+import HospitalsNearMe from './pages/patient/HospitalsNearMe'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import PatientDetail from './pages/admin/PatientDetail'
 import EmergencyView from './pages/admin/EmergencyView'
@@ -38,6 +39,7 @@ export default function App() {
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/change-password" element={<ChangePassword />} />
             <Route path="/medication-reminders" element={<MedicationReminders />} />
+            <Route path="/hospitals-near-me" element={<HospitalsNearMe />} />
           </Route>
 
           <Route element={<ProtectedRoute role="admin" />}>
