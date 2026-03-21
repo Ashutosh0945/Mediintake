@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabaseClient'
 import Navbar from '../../components/Navbar'
 import RiskBadge from '../../components/RiskBadge'
-import { ArrowLeft, Droplets, AlertCircle, Pill, Phone, User, Heart, Activity, CheckCircle, Save, MessageSquare, XCircle, Send } from 'lucide-react'
+import { ArrowLeft, Droplets, AlertCircle, Pill, Phone, User, Heart, Activity, CheckCircle, Save, MessageSquare, XCircle, Send, Printer } from 'lucide-react'
 import { InlineSpinner } from '../../components/LoadingSpinner'
 
 export default function PatientDetail() {
@@ -83,6 +83,7 @@ export default function PatientDetail() {
             <div className="flex items-center gap-2 flex-wrap">
               {intakes[0] && <RiskBadge level={intakes[0].risk_level} score={intakes[0].risk_score} showScore />}
               {intakes[0] && <Link to={`/admin/emergency/${intakes[0].id}`} className="btn-danger text-xs py-1.5 px-3">Emergency View</Link>}
+              <Link to={`/admin/patient/${id}/print`} className="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5"><Printer className="w-3.5 h-3.5" />Print Summary</Link>
               <button onClick={() => setShowMessage(!showMessage)} className="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5">
                 <MessageSquare className="w-3.5 h-3.5" />Message
               </button>
