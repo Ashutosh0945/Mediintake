@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import Navbar from '../../components/Navbar'
-import { MapPin, Phone, Navigation, AlertCircle, RefreshCw, ExternalLink, Clock, Star, Building2 } from 'lucide-react'
+import { MapPin, Phone, Navigation, AlertCircle, RefreshCw, ExternalLink, Clock, Building2, Search, X } from 'lucide-react'
 
 export default function HospitalsNearMe() {
   const [location, setLocation] = useState(null)
@@ -10,6 +10,7 @@ export default function HospitalsNearMe() {
   const [error, setError] = useState('')
   const [selected, setSelected] = useState(null)
   const [radius, setRadius] = useState(3000) // metres
+  const [search, setSearch] = useState('')
   const mapRef = useRef(null)
   const leafletMap = useRef(null)
   const markersRef = useRef([])
@@ -248,14 +249,43 @@ export default function HospitalsNearMe() {
             </div>
 
             {/* Hospital list */}
-            <div className="lg:col-span-2 flex flex-col gap-3 max-h-[540px] overflow-y-auto pr-1">
+            <div className="lg:col-span-2 flex flex-col gap-3">
+              {/* Search bar */}
+              {hospitals.length > 0 && (
+                <div className="relative">
+                  <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    className="input pl-9 pr-9"
+                    type="text"
+                    placeholder="Search hospitals by name…"
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                  />
+                  {search && (
+                    <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300">
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+              )}
+              {/* Results count */}
+              {hospitals.length > 0 && (
+                <p className="text-xs text-slate-500 px-1">
+                  {search
+                    ? `${hospitals.filter(h => h.name.toLowerCase().includes(search.toLowerCase())).length} results for "${search}"`
+                    : `${hospitals.length} hospitals found`}
+                </p>
+              )}
+              <div className="flex flex-col gap-3 max-h-[460px] overflow-y-auto pr-1">
               {loading ? (
                 <div className="card p-8 text-center">
                   <div className="w-8 h-8 border-2 border-slate-700 border-t-teal-500 rounded-full animate-spin mx-auto mb-3" />
                   <p className="text-slate-500 text-sm">Finding hospitals near you…</p>
                 </div>
               ) : hospitals.length === 0 && !error ? null : (
-                hospitals.map((h, i) => (
+                hospitals
+                  .filter(h => !search || h.name.toLowerCase().includes(search.toLowerCase()))
+                  .map((h, i) => (
                   <button
                     key={h.id}
                     onClick={() => flyTo(h)}
