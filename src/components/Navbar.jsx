@@ -1,7 +1,7 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
-import { Activity, LogOut, LayoutDashboard, FileText, PlusCircle, Menu, X, Calendar, Edit, Bell, Pill, Lock, Stethoscope, MapPin, Syringe, Sun, Moon, User, Heart } from 'lucide-react'
+import { Activity, LogOut, LayoutDashboard, FileText, PlusCircle, Menu, X, Calendar, Edit, Bell, Pill, Lock, Stethoscope, MapPin, Syringe, Sun, Moon, User, Heart, Megaphone, BarChart2 } from 'lucide-react'
 import { useState } from 'react'
 
 export default function Navbar({ unreadCount = 0 }) {
@@ -29,6 +29,8 @@ export default function Navbar({ unreadCount = 0 }) {
   const adminLinks = [
     { to: '/admin',                label: 'Dashboard',  icon: LayoutDashboard },
     { to: '/admin/doctor-profile', label: 'My Profile', icon: Stethoscope },
+    { to: '/admin/bulk-message',    label: 'Broadcast',   icon: Megaphone },
+    { to: '/admin/analytics',       label: 'Analytics',   icon: BarChart2 },
   ]
   const links = isAdmin ? adminLinks : patientLinks
   const isActive = (p) => location.pathname === p

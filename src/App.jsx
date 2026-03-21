@@ -23,6 +23,8 @@ import AdminDashboard from './pages/admin/AdminDashboard'
 import PatientDetail from './pages/admin/PatientDetail'
 import EmergencyView from './pages/admin/EmergencyView'
 import DoctorProfile from './pages/admin/DoctorProfile'
+import BulkMessage from './pages/admin/BulkMessage'
+import Analytics from './pages/admin/Analytics'
 import PrintPatientSummary from './pages/admin/PrintPatientSummary'
 
 export default function App() {
@@ -56,6 +58,8 @@ export default function App() {
                 <Route path="/admin/patient/:id" element={<PatientDetail />} />
                 <Route path="/admin/emergency/:intakeId" element={<EmergencyView />} />
                 <Route path="/admin/doctor-profile" element={<DoctorProfile />} />
+                <Route path="/admin/bulk-message" element={<BulkMessage />} />
+                <Route path="/admin/analytics" element={<Analytics />} />
                 <Route path="/admin/patient/:id/print" element={<PrintPatientSummary />} />
               </Route>
 
