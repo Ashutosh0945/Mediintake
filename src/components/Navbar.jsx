@@ -18,6 +18,7 @@ export default function Navbar({ unreadCount = 0 }) {
     { to: '/my-intakes',           label: 'Records',        icon: FileText },
     { to: '/health-score',         label: 'Health Score',   icon: Heart },
     { to: '/hospitals-near-me',    label: 'Hospitals',      icon: MapPin },
+    { to: '/doctor-availability',  label: 'Doctors',        icon: Stethoscope },
     { to: '/vaccinations',         label: 'Vaccines',       icon: Syringe },
     { to: '/appointments',         label: 'Appointments',   icon: Calendar },
     { to: '/medication-reminders', label: 'Medications',    icon: Pill },
@@ -29,6 +30,7 @@ export default function Navbar({ unreadCount = 0 }) {
   const adminLinks = [
     { to: '/admin',                label: 'Dashboard',  icon: LayoutDashboard },
     { to: '/admin/doctor-profile', label: 'My Profile', icon: Stethoscope },
+    { to: '/admin/schedule',       label: 'My Schedule', icon: Calendar },
     { to: '/admin/bulk-message',    label: 'Broadcast',   icon: Megaphone },
     { to: '/admin/analytics',       label: 'Analytics',   icon: BarChart2 },
   ]
