@@ -19,6 +19,7 @@ import Notifications from './pages/patient/Notifications'
 import ChangePassword from './pages/patient/ChangePassword'
 import MedicationReminders from './pages/patient/MedicationReminders'
 import HospitalsNearMe from './pages/patient/HospitalsNearMe'
+import PharmacyFinder from './pages/patient/PharmacyFinder'
 import Vaccinations from './pages/patient/Vaccinations'
 import HealthScoreCard from './pages/patient/HealthScoreCard'
 import AdminDashboard from './pages/admin/AdminDashboard'
@@ -33,8 +34,8 @@ export default function App() {
   return (
     <LanguageProvider>
       <ThemeProvider>
-      <ToastProvider>
-        <AuthProvider>
+        <ToastProvider>
+          <AuthProvider>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Landing />} />
@@ -71,9 +72,9 @@ export default function App() {
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </BrowserRouter>
-        </AuthProvider>
-      </ToastProvider>
-    </ThemeProvider>
-      </LanguageProvider>
+          </AuthProvider>
+        </ToastProvider>
+      </ThemeProvider>
+    </LanguageProvider>
   )
 }
