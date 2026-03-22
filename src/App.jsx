@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { LanguageProvider } from './context/LanguageContext'
 import { AuthProvider } from './context/AuthContext'
 import { ThemeProvider } from './context/ThemeContext'
 import { ToastProvider } from './context/ToastContext'
@@ -32,8 +31,7 @@ import PrintPatientSummary from './pages/admin/PrintPatientSummary'
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <ThemeProvider>
+    <ThemeProvider>
         <ToastProvider>
           <AuthProvider>
           <BrowserRouter>
@@ -75,6 +73,5 @@ export default function App() {
           </AuthProvider>
         </ToastProvider>
       </ThemeProvider>
-    </LanguageProvider>
   )
 }
