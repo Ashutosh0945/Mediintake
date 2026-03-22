@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Landing from './pages/Landing'
 import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
+import AuthCallback from './pages/auth/AuthCallback'
 import PatientDashboard from './pages/patient/PatientDashboard'
 import MedicalProfile from './pages/patient/MedicalProfile'
 import NewIntake from './pages/patient/NewIntake'
@@ -37,6 +38,7 @@ export default function App() {
               <Route path="/" element={<Landing />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
 
               <Route element={<ProtectedRoute role="patient" />}>
                 <Route path="/dashboard" element={<PatientDashboard />} />
