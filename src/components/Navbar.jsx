@@ -1,38 +1,34 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
-import { useLang } from '../context/LanguageContext'
-import { LANGUAGES } from '../lib/i18n'
 import { Activity, LogOut, LayoutDashboard, FileText, PlusCircle, Menu, X, Calendar, Edit, Bell, Pill, Lock, Stethoscope, MapPin, Syringe, Sun, Moon, User, Heart } from 'lucide-react'
 import { useState } from 'react'
 
 export default function Navbar({ unreadCount = 0 }) {
   const { profile, signOut, isAdmin } = useAuth()
   const { theme, toggleTheme } = useTheme()
-  const { lang, setLanguage, t } = useLang()
   const navigate = useNavigate()
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
-  const [langOpen, setLangOpen] = useState(false)
   const handleSignOut = async () => { await signOut(); navigate('/') }
 
   const patientLinks = [
-    { to: '/dashboard',            label: t('dashboard'),    icon: LayoutDashboard },
-    { to: '/new-intake',           label: t('newIntake'),    icon: PlusCircle },
-    { to: '/my-intakes',           label: t('records'),      icon: FileText },
-    { to: '/health-score',         label: t('healthScore'),  icon: Heart },
-    { to: '/hospitals-near-me',    label: t('hospitals'),    icon: MapPin },
-    { to: '/pharmacy',             label: t('pharmacy'),     icon: Activity },
-    { to: '/vaccinations',         label: t('vaccines'),     icon: Syringe },
-    { to: '/appointments',         label: t('appointments'), icon: Calendar },
-    { to: '/medication-reminders', label: t('medications'),  icon: Pill },
-    { to: '/notifications',        label: t('alerts'),       icon: Bell, badge: unreadCount },
-    { to: '/medical-profile',      label: t('profile'),      icon: User },
-    { to: '/edit-profile',         label: t('editProfile'),  icon: Edit },
-    { to: '/change-password',      label: t('password'),     icon: Lock },
+    { to: '/dashboard',            label: 'Dashboard',    icon: LayoutDashboard },
+    { to: '/new-intake',           label: 'New Intake',    icon: PlusCircle },
+    { to: '/my-intakes',           label: 'Records',      icon: FileText },
+    { to: '/health-score',         label: 'Health Score',  icon: Heart },
+    { to: '/hospitals-near-me',    label: 'Hospitals',    icon: MapPin },
+    { to: '/pharmacy',             label: 'Pharmacy',     icon: Activity },
+    { to: '/vaccinations',         label: 'Vaccines',     icon: Syringe },
+    { to: '/appointments',         label: 'Appointments', icon: Calendar },
+    { to: '/medication-reminders', label: 'Medications',  icon: Pill },
+    { to: '/notifications',        label: 'Alerts',       icon: Bell, badge: unreadCount },
+    { to: '/medical-profile',      label: 'Profile',      icon: User },
+    { to: '/edit-profile',         label: 'Edit Profile',  icon: Edit },
+    { to: '/change-password',      label: 'Password',     icon: Lock },
   ]
   const adminLinks = [
-    { to: '/admin',                label: t('dashboard'),    icon: LayoutDashboard },
+    { to: '/admin',                label: 'Dashboard',    icon: LayoutDashboard },
     { to: '/admin/doctor-profile', label: 'My Profile',      icon: Stethoscope },
     { to: '/admin/bulk-message',   label: 'Broadcast',       icon: Bell },
     { to: '/admin/analytics',      label: 'Analytics',       icon: Activity },
@@ -77,30 +73,6 @@ export default function Navbar({ unreadCount = 0 }) {
         {/* Right controls */}
         <div className="flex items-center gap-2 flex-shrink-0">
 
-          {/* Language switcher */}
-          <div style={{ position: 'relative' }}>
-            <button onClick={() => setLangOpen(!langOpen)}
-              style={{ background: 'rgba(8,145,178,0.1)', border: '1px solid rgba(8,145,178,0.22)', borderRadius: '8px', padding: '6px 10px', color: '#67E8F9', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px', fontWeight: 700 }}
-              onMouseEnter={e => e.currentTarget.style.background='rgba(8,145,178,0.18)'}
-              onMouseLeave={e => !langOpen && (e.currentTarget.style.background='rgba(8,145,178,0.1)')}>
-              <span style={{ fontSize: '14px' }}>{currentLang?.flag}</span>
-              <span className="hidden sm:inline">{currentLang?.label}</span>
-            </button>
-            {langOpen && (
-              <div style={{ position: 'absolute', right: 0, top: '38px', background: 'rgba(2,12,35,0.98)', border: '1.5px solid rgba(8,145,178,0.3)', borderRadius: '12px', padding: '6px', minWidth: '130px', zIndex: 100, boxShadow: '0 8px 28px rgba(0,0,0,0.5)' }} className="animate-fade-in">
-                {LANGUAGES.map(l => (
-                  <button key={l.code} onClick={() => { setLanguage(l.code); setLangOpen(false) }}
-                    style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', padding: '8px 12px', borderRadius: '8px', border: 'none', background: lang === l.code ? 'rgba(8,145,178,0.18)' : 'transparent', color: lang === l.code ? '#22D3EE' : 'rgba(165,243,252,0.6)', cursor: 'pointer', fontSize: '13px', fontWeight: lang === l.code ? 700 : 500, transition: 'all 0.15s', fontFamily: 'Outfit,sans-serif' }}
-                    onMouseEnter={e => { if (lang !== l.code) e.currentTarget.style.background='rgba(8,145,178,0.08)' }}
-                    onMouseLeave={e => { if (lang !== l.code) e.currentTarget.style.background='transparent' }}>
-                    <span style={{ fontSize: '16px' }}>{l.flag}</span>{l.label}
-                    {lang === l.code && <span style={{ marginLeft: 'auto', fontSize: '10px' }}>✓</span>}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
           {/* Theme toggle */}
           <button onClick={toggleTheme}
             style={{ background: 'rgba(8,145,178,0.1)', border: '1px solid rgba(8,145,178,0.22)', borderRadius: '8px', padding: '7px', color: '#67E8F9', cursor: 'pointer', transition: 'all 0.2s', display: 'flex' }}
@@ -133,10 +105,6 @@ export default function Navbar({ unreadCount = 0 }) {
           </button>
         </div>
       </div>
-
-      {/* Click outside to close lang dropdown */}
-      {langOpen && <div style={{ position: 'fixed', inset: 0, zIndex: 99 }} onClick={() => setLangOpen(false)} />}
-
       {/* Mobile menu */}
       {menuOpen && (
         <div style={{ background: 'rgba(2,6,23,0.99)', borderTop: '1px solid rgba(8,145,178,0.18)' }} className="lg:hidden px-4 py-3 flex flex-col gap-1 animate-fade-in max-h-[80vh] overflow-y-auto">
