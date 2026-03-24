@@ -9,31 +9,16 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Track if we're already fetching to avoid double-fetch
-    let isFetching = false
-
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
-      if (session?.user) {
-        isFetching = true
-        fetchProfile(session.user.id)
-      } else {
-        setLoading(false)
-      }
+      if (session?.user) fetchProfile(session.user.id)
+      else setLoading(false)
     })
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
-      if (session?.user) {
-        // ✅ Always set loading=true BEFORE fetching so ProtectedRoute waits
-        setLoading(true)
-        isFetching = true
-        fetchProfile(session.user.id)
-      } else {
-        setProfile(null)
-        setLoading(false)
-        isFetching = false
-      }
+      if (session?.user) fetchProfile(session.user.id)
+      else { setProfile(null); setLoading(false) }
     })
 
     return () => subscription.unsubscribe()
@@ -44,7 +29,7 @@ export function AuthProvider({ children }) {
       // Retry up to 3 times to handle trigger delay
       let data = null
       for (let i = 0; i < 3; i++) {
-        const { data: row } = await supabase
+        const { data: row, error } = await supabase
           .from('profiles')
           .select('*')
           .eq('id', userId)
@@ -58,7 +43,6 @@ export function AuthProvider({ children }) {
       console.error('fetchProfile error:', err)
       setProfile(null)
     } finally {
-      // ✅ Only set loading=false after profile fetch completes
       setLoading(false)
     }
   }
