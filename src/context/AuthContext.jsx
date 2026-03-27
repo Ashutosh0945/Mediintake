@@ -4,7 +4,7 @@ import { supabase } from '../lib/supabaseClient'
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
+  const [user, setUser]       = useState(null)
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -25,18 +25,18 @@ export function AuthProvider({ children }) {
   }, [])
 
   async function fetchProfile(userId) {
+    setLoading(true)
     try {
-      // Retry up to 3 times to handle trigger delay
       let data = null
-      for (let i = 0; i < 3; i++) {
-        const { data: row, error } = await supabase
+      // Retry up to 5 times with 800ms gap (handles trigger delay)
+      for (let i = 0; i < 5; i++) {
+        const { data: row } = await supabase
           .from('profiles')
           .select('*')
           .eq('id', userId)
           .maybeSingle()
-
         if (row) { data = row; break }
-        if (i < 2) await new Promise(r => setTimeout(r, 1000))
+        if (i < 4) await new Promise(r => setTimeout(r, 800))
       }
       setProfile(data)
     } catch (err) {
@@ -53,7 +53,7 @@ export function AuthProvider({ children }) {
     setProfile(null)
   }
 
-  const isAdmin = profile?.role === 'admin'
+  const isAdmin   = profile?.role === 'admin'
   const isPatient = profile?.role === 'patient'
 
   return (
