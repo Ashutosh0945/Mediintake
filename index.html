@@ -4,26 +4,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-    <!-- PWA Meta Tags -->
+    <!-- Primary PWA meta -->
     <meta name="theme-color" content="#0891B2" />
+    <meta name="description" content="Digital Healthcare Intake & Emergency Risk Scoring System" />
+    <meta name="application-name" content="MediIntake" />
+
+    <!-- Android -->
     <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- iOS Safari -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="MediIntake" />
-    <meta name="application-name" content="MediIntake" />
-    <meta name="description" content="Digital Healthcare Intake & Emergency Risk Scoring System" />
 
-    <!-- Icons -->
-    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <!-- iOS icons (multiple sizes for different devices) -->
     <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon-192.png" />
     <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />
-    <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png" />
+
+    <!-- iOS splash screens -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
 
     <!-- Manifest -->
     <link rel="manifest" href="/manifest.json" />
-
-    <!-- Splash screen colors for iOS -->
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
     <title>MediIntake — Digital Healthcare Intake System</title>
 
@@ -33,9 +43,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
     <style>
-      /* Prevent flash of unstyled content */
-      body { background: #020617; margin: 0; }
-      /* Safe area for iPhone notch */
+      body { background: #020617; margin: 0; padding: 0; }
       body { padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
     </style>
   </head>
@@ -43,13 +51,24 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
 
-    <!-- Register Service Worker -->
     <script>
+      // Register Service Worker
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then(reg => console.log('SW registered:', reg.scope))
-            .catch(err => console.log('SW error:', err))
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js', { scope: '/' })
+            .then(function(reg) {
+              console.log('SW registered, scope:', reg.scope)
+              // Force update on new version
+              reg.addEventListener('updatefound', function() {
+                var newWorker = reg.installing
+                newWorker.addEventListener('statechange', function() {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    console.log('New SW installed')
+                  }
+                })
+              })
+            })
+            .catch(function(err) { console.error('SW error:', err) })
         })
       }
     </script>

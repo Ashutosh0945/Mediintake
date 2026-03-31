@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext'
 import { ThemeProvider } from './context/ThemeContext'
 import { ToastProvider } from './context/ToastContext'
 import ProtectedRoute from './components/ProtectedRoute'
+import PWAInstallPrompt from './components/PWAInstallPrompt'
 
 import Landing from './pages/Landing'
 import Login from './pages/auth/Login'
@@ -77,6 +78,7 @@ export default function App() {
           </BrowserRouter>
         </AuthProvider>
       </ToastProvider>
+      <PWAInstallPrompt />
     </ThemeProvider>
   )
 }
