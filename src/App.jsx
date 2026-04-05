@@ -23,6 +23,9 @@ import HospitalsNearMe from './pages/patient/HospitalsNearMe'
 import PharmacyFinder from './pages/patient/PharmacyFinder'
 import Vaccinations from './pages/patient/Vaccinations'
 import HealthScoreCard from './pages/patient/HealthScoreCard'
+import BMICalculator from './pages/patient/BMICalculator'
+import DoctorBooking from './pages/patient/DoctorBooking'
+import ExportHealth from './pages/patient/ExportHealth'
 
 import AdminDashboard from './pages/admin/AdminDashboard'
 import PatientDetail from './pages/admin/PatientDetail'
@@ -31,6 +34,8 @@ import DoctorProfile from './pages/admin/DoctorProfile'
 import BulkMessage from './pages/admin/BulkMessage'
 import Analytics from './pages/admin/Analytics'
 import PrintPatientSummary from './pages/admin/PrintPatientSummary'
+import DischargeSummary from './pages/admin/DischargeSummary'
+import Chat from './pages/admin/Chat'
 
 export default function App() {
   return (
@@ -53,6 +58,7 @@ export default function App() {
                 <Route path="/my-intakes" element={<IntakeHistory />} />
                 <Route path="/edit-profile" element={<EditProfile />} />
                 <Route path="/appointments" element={<AppointmentRequest />} />
+                <Route path="/book-doctor" element={<DoctorBooking />} />
                 <Route path="/notifications" element={<Notifications />} />
                 <Route path="/change-password" element={<ChangePassword />} />
                 <Route path="/medication-reminders" element={<MedicationReminders />} />
@@ -60,6 +66,9 @@ export default function App() {
                 <Route path="/pharmacy" element={<PharmacyFinder />} />
                 <Route path="/vaccinations" element={<Vaccinations />} />
                 <Route path="/health-score" element={<HealthScoreCard />} />
+                <Route path="/bmi" element={<BMICalculator />} />
+                <Route path="/export-health" element={<ExportHealth />} />
+                <Route path="/chat" element={<Chat />} />
               </Route>
 
               {/* Admin */}
@@ -71,14 +80,16 @@ export default function App() {
                 <Route path="/admin/bulk-message" element={<BulkMessage />} />
                 <Route path="/admin/analytics" element={<Analytics />} />
                 <Route path="/admin/patient/:id/print" element={<PrintPatientSummary />} />
+                <Route path="/admin/patient/:id/discharge" element={<DischargeSummary />} />
+                <Route path="/admin/chat" element={<Chat />} />
               </Route>
 
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
+            <PWAInstallPrompt />
           </BrowserRouter>
         </AuthProvider>
       </ToastProvider>
-      <PWAInstallPrompt />
     </ThemeProvider>
   )
 }
