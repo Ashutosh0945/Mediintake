@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabaseClient'
 import Navbar from '../../components/Navbar'
@@ -23,14 +23,20 @@ export default function AdminDashboard() {
   const [dateTo, setDateTo] = useState('')
   const [tab, setTab] = useState('intakes')
 
+  // Keep a ref to the latest load() so Realtime callbacks never go stale
+  const loadRef = useRef(load)
+  useEffect(() => { loadRef.current = load })
+
   useEffect(() => {
     load()
     const channel = supabase.channel('admin-live')
-      .on('postgres_changes',{event:'*',schema:'public',table:'intakes'},load)
-      .on('postgres_changes',{event:'*',schema:'public',table:'appointments'},load)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'intakes' },
+        () => loadRef.current())
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'appointments' },
+        () => loadRef.current())
       .subscribe()
     return () => supabase.removeChannel(channel)
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   async function load() {
     // Fetch intakes WITHOUT join
